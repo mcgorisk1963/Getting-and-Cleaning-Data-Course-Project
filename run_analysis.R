@@ -3,56 +3,7 @@
 # these are fixed width files.
 # using read table
 
-#1) Merge the data sets
 
-  #Prepare data sets for merging.
-
-  #Prepare the test set by 
-  #loading the test data set from x_test.txt
-  #loading the activity data set column by using y_test.txt
-  #loading the subject data set by using column by using "subject_text.txt"
-  #loading the variable names data set by using "features.txt"
-
-  #transform the features.txt so that its 563 rows become the header of the test data set
-  #then bolt on the activity column and the subject column , give the columns those names.
-  #You now have 86 variables and your test data is ready for merging.
-  
-  #loading the test data set from x_test.txt
-  #loading the activity data set column by using y_test.txt
-  #loading the subject data set by using column by using "subject_text.txt"
-  #loading the variable names data set by using "features.txt"
-  #then bolt on the activity column and the subject column , give the columns those names.
-
-  #merge the two data sets using rbind.  The test data is on top  as it has the header row.
-
-  #Why do it like this?
-  #2)
-  #using grep extract out all the columns that have either mean, Mean, std or Std included in their data name
-  #and take the activity column and subject column as well.
-
-  #This gives a data set of 86 variables with xxxx observations.
-  #3)
-  #change the values in the activity columns to test_labels 
-  ##  where 1 =  "walking"
-  #  where 2 = "walking upstairs"
-  #  where 3 = "walking downstairs"
-  #  where 4 = "sitting"
-  #  where 5 = "standing"
-  ##  where 6 = "laying"
-  #  as described in the activity_labels file.
-  
-  # Is there a file with the subject names anywhere?, we can just leave the subject column with
-  # values 1 = 10.
- # 4)
- ## Next, You have now got 84 variable names that are required to turn into suitable variable names
-#  To my mind the variable names are sufficiently descriptive if they could be tidied up
- # using sone string manipulation with gsub. I have removed the characters that do not normally appear
- # in variable names such as "(", ")" and replaced commas with underscoreds, and the variable name list
- # is below.  I think it is fine.  There is no need to change these any further.  As I dont know what they mean
- ## there is no guarantee that the nanes that I would give them would be any more meaningful
- # Below is a list of the variable names after above transformation.
- # 
- # 5) comes when 4 is finished.
   
 
   
