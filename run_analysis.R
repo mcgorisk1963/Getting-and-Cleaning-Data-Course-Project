@@ -136,8 +136,8 @@ names(relevant_data) <- gsub("(", "_", names(relevant_data), fixed=TRUE )
 names(relevant_data) <- gsub(")", "", names(relevant_data), fixed=TRUE )
 print(colnames(relevant_data))
 
-# Write the data frame to a csv.  "Combined_data.csv"
-write.csv(relevant_data,"Combined_data.csv")
+# Write the data frame to a csv.  "tidydata.csv"
+write.csv(relevant_data,"tidydata.csv")
 
 #class(colnames(grep_out))
 
@@ -153,7 +153,7 @@ relevant_data_melted <- melt(relevant_data, id.vars = c("Subject", "Activity"))
 
 relevant_data_melted_casted <- dcast(relevant_data_melted, Subject + Activity ~ variable, fun = mean)
 
-write.csv(relevant_data_melted_casted,"summarized_data.csv")
+write.csv(relevant_data_melted_casted,"mean_tidydata.csv")
 
 #and this gives 180 observations of 88 variables. ( 180 observations = 30 subjects, 6 activities)
 
