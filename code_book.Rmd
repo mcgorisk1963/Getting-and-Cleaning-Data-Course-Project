@@ -1,0 +1,127 @@
+---
+title: "Getting and Cleaning Data - Course Project"
+author: "Morgan Murphy"
+date: "Saturday, November 22, 2014"
+output: html_document
+---
+#Introduction
+
+This is the code book for the script file "run_analysis.r" script file which is used in the **Getting and Cleaning Data** course project.
+
+The script products two tidy data files:  
+- tidydata.csv.  	          Main file required by steps 1 - 4 of course project.	
+- mean_tidydata.csv.        File required by step 5 of course project.
+
+Both outcome files have been loaded into Git Hub repo.   This document summaries the steps that were used to transform raw data into the tidy data set.  Each individual step is documented in the actual script file run_analysis.r
+
+#Download Data
+
+
+
+To do this project, I downloaded https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip from the course website and unzipped data file to my working directory in R.
+The following files are used in the project. Paths to files are relevant to working directory.
+
+- features.txt.- File containing variable names
+- test/x_test.txt.- The Test Data set file
+- test/y_test.txt. - The Test Activity file
+- test/subject_text.txt - The Test Subject file
+- train/x_test.txt. - The Training Data set file
+- train/y_test.txt. - The Training Activity file
+- train/subject_text.txt - The Training Subject file
+
+#1.	Merge Training and Test Data Sets
+
+I Prepared Data Sets for Merging by firstly loading all seven .txt files  referenced above into data frames using read.table.
+I then merged the Train_data set with the Test_data set using rbind.  The result was a data frame with 
+10299 observations and 561 columns as expected.
+I changed the 561 column names to the column names available from the "features.txt" file.
+The test and training data sets are now merged with column names applied.  This is the complete_data data frame. The activity and subject columns will be added after required variables have been extracted.
+
+#2.	Extract only the measurements on the mean and standard deviation for each measurement.
+
+To do this I used the grep function as detailed below.
+
+relevant_data <- complete_data[grep("mean|Mean|std|Std",names(complete_data))]
+
+The resulting data frame (relevant_data) has 86 variables reduced from the original 561.
+I did it this way so that any column that had either mean, Mean, Std or std in any part of the column would be included in the derived data set.  Some of these columns may not be required but as the document specification does not go into any great detail on this, it seems a better idea to get all columns  that might be relevant rather than risk leaving relevant columns behind.  In any event,  86 variables are manageable.  I see that others have extracted less ( between 60 and 70 columns )  but I have elected to go for the max here.
+When I have these 86 variables, extracted, I do the following;
+Using rbind, I bind the test activity labels to the training activity labels using the same order as I used to bind the test data to the training data.   Using rbind again, I add the training subjects to the  test subjects.  When I do this,  I am left with two data frames  complete_subject and complete_data each having 10299 observations of one variable.
+
+Using cbind, I can now add these to the the relevant_data data set and change their column names to Subject and Activity accordingly.  
+I did not bind these two columns originally because I would have had to extract them in my grep statement. If I had done this, I would thought that I might have also extracted some other columns in inadvertently.  It seemed safer to do it this way.  I have now got a data frame with 88 columns and 10299 variables.
+
+#3.	Uses descriptive activity names to name the activities in the data set
+
+To do this section, I used the activity_labels.txt file which specifies activity values as follows;
+(1) ¡§walking¡¨, (2) ¡§walking upstairs¡¨, (3) ¡§walking downstairs¡¨, (4) ¡§sitting¡¨, (5) ¡§standing¡¨, and (6) ¡§laying¡¨.
+
+
+
+#4.	Appropriately labels the data set with descriptive variable names. 
+
+
+
+
+I thought that the variable names as they existed were clear enough or at least as clear as any interpretation that I could give them - if they were cleaned up so that those characters  and character sequences that are not  usually part of variable names were removed and replaced, the resulting variable names are sufficiently descriptive. To do this, I used the code gusb function to remove occurences if "(), ",", ")" and "(" .  To illustrate my point that after some alterations, the variable  names are descriptive, I have included the 86 variable names below.  
+
+*List of New Variable Names*
+
+[1] "tBodyAcc-mean-X"                     "tBodyAcc-mean-Y"                    
+ [3] "tBodyAcc-mean-Z"                     "tBodyAcc-std-X"                     
+ [5] "tBodyAcc-std-Y"                      "tBodyAcc-std-Z"                     
+ [7] "tGravityAcc-mean-X"                  "tGravityAcc-mean-Y"                 
+ [9] "tGravityAcc-mean-Z"                  "tGravityAcc-std-X"                  
+[11] "tGravityAcc-std-Y"                   "tGravityAcc-std-Z"                  
+[13] "tBodyAccJerk-mean-X"                 "tBodyAccJerk-mean-Y"                
+[15] "tBodyAccJerk-mean-Z"                 "tBodyAccJerk-std-X"                 
+[17] "tBodyAccJerk-std-Y"                  "tBodyAccJerk-std-Z"                 
+[19] "tBodyGyro-mean-X"                    "tBodyGyro-mean-Y"                   
+[21] "tBodyGyro-mean-Z"                    "tBodyGyro-std-X"                    
+[23] "tBodyGyro-std-Y"                     "tBodyGyro-std-Z"                    
+[25] "tBodyGyroJerk-mean-X"                "tBodyGyroJerk-mean-Y"               
+[27] "tBodyGyroJerk-mean-Z"                "tBodyGyroJerk-std-X"                
+[29] "tBodyGyroJerk-std-Y"                 "tBodyGyroJerk-std-Z"                
+[31] "tBodyAccMag-mean"                    "tBodyAccMag-std"                    
+[33] "tGravityAccMag-mean"                 "tGravityAccMag-std"                 
+[35] "tBodyAccJerkMag-mean"                "tBodyAccJerkMag-std"                
+[37] "tBodyGyroMag-mean"                   "tBodyGyroMag-std"                   
+[39] "tBodyGyroJerkMag-mean"               "tBodyGyroJerkMag-std"               
+[41] "fBodyAcc-mean-X"                     "fBodyAcc-mean-Y"                    
+[43] "fBodyAcc-mean-Z"                     "fBodyAcc-std-X"                     
+[45] "fBodyAcc-std-Y"                      "fBodyAcc-std-Z"                     
+[47] "fBodyAcc-meanFreq-X"                 "fBodyAcc-meanFreq-Y"                
+[49] "fBodyAcc-meanFreq-Z"                 "fBodyAccJerk-mean-X"                
+[51] "fBodyAccJerk-mean-Y"                 "fBodyAccJerk-mean-Z"                
+[53] "fBodyAccJerk-std-X"                  "fBodyAccJerk-std-Y"                 
+[55] "fBodyAccJerk-std-Z"                  "fBodyAccJerk-meanFreq-X"            
+[57] "fBodyAccJerk-meanFreq-Y"             "fBodyAccJerk-meanFreq-Z"            
+[59] "fBodyGyro-mean-X"                    "fBodyGyro-mean-Y"                   
+[61] "fBodyGyro-mean-Z"                    "fBodyGyro-std-X"                    
+[63] "fBodyGyro-std-Y"                     "fBodyGyro-std-Z"                    
+[65] "fBodyGyro-meanFreq-X"                "fBodyGyro-meanFreq-Y"               
+[67] "fBodyGyro-meanFreq-Z"                "fBodyAccMag-mean"                   
+[69] "fBodyAccMag-std"                     "fBodyAccMag-meanFreq"               
+[71] "fBodyBodyAccJerkMag-mean"            "fBodyBodyAccJerkMag-std"            
+[73] "fBodyBodyAccJerkMag-meanFreq"        "fBodyBodyGyroMag-mean"              
+[75] "fBodyBodyGyroMag-std"                "fBodyBodyGyroMag-meanFreq"          
+[77] "fBodyBodyGyroJerkMag-mean"           "fBodyBodyGyroJerkMag-std"     
+[79] "fBodyBodyGyroJerkMag-meanFreq"       "angle_tBodyAccMean_gravity"         
+[81] "angle_tBodyAccJerkMean_gravityMean"  "angle_tBodyGyroMean_gravityMean"    
+[83] "angle_tBodyGyroJerkMean_gravityMean" "angle_X_gravityMean"                
+[85] "angle_Y_gravityMean"                 "angle_Z_gravityMean"                
+ 
+#5.	From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+
+
+
+Using melt and dcast from the excellent reshape2 package, the last step is done.
+
+relevant_data_melted <- melt(relevant_data, id.vars = c("Subject", "Activity")) 
+
+relevant_data_melted_casted <- dcast(relevant_data_melted, Subject + Activity ~ variable, fun = mean)
+
+write.csv(relevant_data_melted_casted,"eman_tidydata.csv")
+
+Above  180 observations of 88 variables as expected ( 180 observations = 30 subjects, 6 activities)     
+
