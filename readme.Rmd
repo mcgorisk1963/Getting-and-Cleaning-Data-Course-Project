@@ -1,0 +1,80 @@
+---
+title: "Readme file for the Getting and Cleaning Data Project"
+author: "Morgan Murphy"
+date: "Sunday, November 23, 2014"
+output: html_document
+---
+
+
+
+
+
+
+#Introduction.
+
+This repository contains number of files connected to the course project.
+
+##The Script file.
+
+
+In order for the script file to run, this file must be downloaded and extracted into your working directory in R .  https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip  
+
+The script file "run_analysis.R"" merges the test and traing data and performs some data transformations as outlined below.
+
+the variables are given the names from the features.txt file downloaded with the data.
+
+Only those variables that have to do with the mean and standard deviation are extracted.  When these variables are extracted,  86  are left fronm the origial 561.
+
+
+Those variables are then given a more descriptive name.
+
+The labels and subjects are then added to the merged data set.  The subject value becomes the first column in the data set.  The Activity Label column becomes the second column.
+
+The merge and data transformations mentioned above, yield our first tidy data set ( tidydata.txt)  as required by the course project.
+
+Based on  this data set, another data set is derived.  This data set is created by getting the mean of all the variables after column 2 and then grouping by the subject ( column 1) and the activity ( column 2).  This dataset is called mean_tidydata.txt and is included in this repositiry.  A .csv is also included. This data set had 561 columns. 
+
+## The Raw Data
+
+When the data downloaded is extracted ,  the following files are included.  Each of these files are used in deriving the tidy data sets as set out above.
+
+- 'features_info.txt': Shows information about the variables used on the feature vector.
+
+- 'features.txt': List of all features.  There are 561 entries in this file which are used to         name the variables in the merged file created from the test  and training data set.
+
+- 'train/X_train.txt': Training set. This is the trainging data.  There are 7232 observations of 561 variables.
+
+- 'train/y_train.txt': Training labels.  This file contains the labels for the training data set. There are 7232 observations of 1 variable.  The range of these values is 1-6 for the six  categories of activites which are To do with this section.  These are  (1) "walking", (2) "walking upstairs", (3) "walking downstairs", (4) "sitting", (5) "standing", and (6) "laying" as set out by the file activitylabels.txt
+
+
+- 'test/X_test.txt': Test set.  This is the test data.  There are 2947 observations of 561 variables.
+
+- 'test/y_test.txt': Test labels. Thus file contains the labels for the test data.
+
+- 'activity_labels.txt': Links the class labels with their activity name.  This file is 
+
+The following files are available for the train and test data. t. 
+
+- 'train/subject_train.txt': 
+- 'test/subject_test.txt'
+
+Each row identifies the subject who performed the activity.  The range of this file is 1-30.
+
+##The Code Book
+
+The code Book included in this repository with this file explains how the data files above were used to derive the tidy data sets "tidydata.txt" and "mean_tidydata.txt"
+
+
+##Explanation Of Raw Data 
+
+The following information which explains the origin of the data is extracted from the readme.txt
+downloaded with the data.
+
+The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. 
+
+The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain. See 'features_info.txt' for more details. 
+
+
+
+
+
