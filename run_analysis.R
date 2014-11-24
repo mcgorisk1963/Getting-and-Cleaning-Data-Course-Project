@@ -101,16 +101,16 @@ complete_subject <- rbind(test_subject, train_subject)
 complete_activity <- rbind(test_activity, train_activity)
 
 
-
+relevant_data <- cbind(complete_activity, relevant_data)
 #column bind complete subject to relevant data
-relevant_data <- cbind(relevant_data, complete_subject)
+relevant_data <- cbind(complete_subject, relevant_data )
 #column bind complete activity to conplete data
-relevant_data <- cbind(relevant_data, complete_activity)
+
 #have 10299 observations of 88 variables
 
 #change the names of the last two variables
-colnames(relevant_data)[87] = "Subject"
-colnames(relevant_data)[88] = "Activity"
+colnames(relevant_data)[1] = "Subject"
+colnames(relevant_data)[2] = "Activity"
 
 
 
@@ -137,7 +137,7 @@ names(relevant_data) <- gsub(")", "", names(relevant_data), fixed=TRUE )
 print(colnames(relevant_data))
 
 # Write the data frame to a csv.  "tidydata.csv"
-write.csv(relevant_data,"tidydata.csv")
+write.table(relevant_data,"tidydata.txt", row.name=FALSE)
 
 #class(colnames(grep_out))
 
@@ -153,7 +153,7 @@ relevant_data_melted <- melt(relevant_data, id.vars = c("Subject", "Activity"))
 
 relevant_data_melted_casted <- dcast(relevant_data_melted, Subject + Activity ~ variable, fun = mean)
 
-write.csv(relevant_data_melted_casted,"mean_tidydata.csv")
+write.table(relevant_data_melted_casted,"mean_tidydata.txt", row.name=FALSE)
 
 #and this gives 180 observations of 88 variables. ( 180 observations = 30 subjects, 6 activities)
 
